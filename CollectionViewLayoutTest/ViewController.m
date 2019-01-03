@@ -17,13 +17,15 @@ static NSString * const kCellID = @"Cell";
 @property (nonatomic, strong) MXCollectionView *collectionView;
 @property (nonatomic, strong) MXCollectionViewLayout *collectionViewLayout;
 @property (nonatomic, strong) NSArray <NSString *>*dataArray;
+@property (nonatomic, strong) NSArray <NSString *>*sectionArray;
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.dataArray = @[@"你是傻逼", @"你才是大傻逼", @"我呸", @"曾经沧海难为水", @"除去巫山不是云", @"取次花丛懒回顾",@"哈哈 东零西碎哈哈哈 东零西碎哈哈哈 东零西碎哈哈哈 ", @"半缘修道半缘君", @"床前明月光", @"疑似地上霜", @"举头望明月", @"低头思故乡", @"人之初，性本善", @"性相近", @"习相远", @"子不学，非所宜，又不学老何为"];
+    self.sectionArray = @[@"历史搜索", @"热门搜索", @"好友搜索", @"商品搜索"];
+    self.dataArray = @[@"你是傻逼", @"你才是大傻逼", @"我呸", @"曾经沧海难为水", @"除去巫山不是云", @"取次花丛懒回顾",@"哈哈 东零西碎哈哈哈 东零西碎哈哈哈 东零西碎哈哈哈 ", @"半缘修道半缘君", @"床前明月光", @"疑似地上霜", @"举头望明月", @"低头思故乡", @"人之初，性本善", @"性相近", @"习相远", @"摸摸哒，哈哈哈，嘻嘻嘻，哦哦哦，嘿嘿嘿，呀呀呀，啦啦啦，耶耶耶，呜呜呜"];
     [self.view addSubview:self.collectionView];
 }
 
@@ -52,7 +54,7 @@ static NSString * const kCellID = @"Cell";
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 2;
+    return self.sectionArray.count;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -66,7 +68,6 @@ static NSString * const kCellID = @"Cell";
     cell.backgroundColor = UIColor.redColor;
     return cell;
 }
-
 //
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
            viewForSupplementaryElementOfKind:(NSString *)kind
@@ -77,21 +78,18 @@ static NSString * const kCellID = @"Cell";
     MXCollectionReusableView *headerReusableView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                                                                                       withReuseIdentifier:@"MXCollectionReusableView"
                                                                                                      forIndexPath:indexPath];
-    headerReusableView.textLabel.text = indexPath.section == 0 ? @"历史搜索" : @"热门搜索";
+    headerReusableView.textLabel.text = self.sectionArray[indexPath.section];
     headerReusableView.backgroundColor = UIColor.greenColor;
     return headerReusableView;
 }
-
 //
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
 }
-
 //
 - (CGSize)collectionViewItemForIndexPath:(NSIndexPath *)indexPath {
     return [self stringSize:self.dataArray[indexPath.row]];
 }
-
 //
 - (CGSize)stringSize:(NSString *)string {
     if (string.length == 0) return CGSizeZero;
